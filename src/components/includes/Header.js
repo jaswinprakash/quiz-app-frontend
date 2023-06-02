@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "../../App";
+
 
 function Header() {
+    const { userData, updateUserData } = useContext(UserContext);
+    const handleLogout = () => {
+    updateUserData({ type: "LOGOUT" });
+  };
     return (
         <>
             <HeaderContainer>
                 <DivLeft>
                     <Link to="/">
                         <LogoImg
-                            src={
-                                require("../../assets/images/logo.png")
-                            }
+                            src={require("../../assets/images/logo.png")}
                         />
                     </Link>
                 </DivLeft>
-                <DivRight>
-                    <LoginText>Login</LoginText>
-                </DivRight>
+                {userData ? (
+                <>
+                    {" "}
+
+                    <Button onClick={() => handleLogout()}>
+                        <Link to="/login">Logout</Link>
+                    </Button>
+                    </>
+                ) : (
+                    <>
+
+                    <Button>
+                        {" "}
+                        <Link to="/login">Login</Link>
+                    </Button>
+                </>
+          )}
             </HeaderContainer>
         </>
     );
@@ -40,7 +58,7 @@ const LogoImg = styled.img`
     width: 100%;
     display: block;
 `;
-const DivRight = styled.div`
+const Button = styled.div`
     background: #046bf6;
     padding: 10px 40px;
     border-radius: 5px;
