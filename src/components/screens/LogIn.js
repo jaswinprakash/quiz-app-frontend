@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../App";
 
@@ -23,7 +23,7 @@ export default function LogIn() {
             let data = response.data;
             localStorage.setItem("user_data", JSON.stringify(data));
             updateUserData({ type: "LOGIN", payload: data });
-            navigate("/home");
+            navigate("/category");
         })
         .catch((error) => {
             console.log(error.response.data);

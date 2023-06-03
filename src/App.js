@@ -5,6 +5,7 @@ import MainPage from "./components/screens/MainPage";
 import NoMatch from "./components/screens/NoMatch";
 import LogIn from "./components/screens/LogIn";
 import SignUp from "./components/screens/SignUp";
+import Category from "./components/screens/Category";
 
 export const UserContext = createContext();
 
@@ -33,7 +34,8 @@ function App() {
             <UserContext.Provider value={{ userData, updateUserData }}>
                 <Router>
                     <Routes>
-                        <Route path="/home" element={<MainPage />} />
+                        <Route path="/home/:id" element={<MainPage />} />
+                        <Route path="/category" element={<Category />} />
                         <Route path="/login" element={<LogIn />} />
                         <Route path="/signup/" element={<SignUp />} />
                         <Route path="*" element={<NoMatch />} />

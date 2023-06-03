@@ -1,41 +1,40 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../../App";
 
-
 function Header() {
+    const navigate = useNavigate();
     const { userData, updateUserData } = useContext(UserContext);
     const handleLogout = () => {
-    updateUserData({ type: "LOGOUT" });
-  };
+        updateUserData({ type: "LOGOUT" });
+        navigate("/login");
+    };
     return (
         <>
             <HeaderContainer>
-                <DivLeft>
-                    <Link to="/">
+                <Link to="/">
+                    <DivLeft>
                         <LogoImg
                             src={require("../../assets/images/logo.png")}
                         />
-                    </Link>
-                </DivLeft>
+                    </DivLeft>
+                </Link>
                 {userData ? (
-                <>
-                    {" "}
-
-                    <Button onClick={() => handleLogout()}>
-                        <Link to="/login">Logout</Link>
-                    </Button>
+                    <>
+                        {" "}
+                        <Button onClick={() => handleLogout()}>
+                            <Link to="/login">Logout</Link>
+                        </Button>
                     </>
                 ) : (
                     <>
-
-                    <Button>
-                        {" "}
-                        <Link to="/login">Login</Link>
-                    </Button>
-                </>
-          )}
+                        <Button>
+                            {" "}
+                            <Link to="/login">Login</Link>
+                        </Button>
+                    </>
+                )}
             </HeaderContainer>
         </>
     );

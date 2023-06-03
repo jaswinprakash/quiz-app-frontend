@@ -30,7 +30,7 @@ export default function SignUp() {
           console.log(status_code);
           localStorage.setItem("user_login_data", JSON.stringify(data));
           updateUserData({ type: "LOGIN", payload: data });
-          navigate("/home");
+          navigate("/category");
         } else {
           setMessage(response.data.data);
         }
