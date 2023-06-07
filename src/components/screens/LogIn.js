@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/store";
 import { quizConfig } from "../../axiosConfig";
+import { Helmet } from "react-helmet";
 
 export default function LogIn() {
     const { state, dispatch } = useContext(Context);
@@ -15,80 +16,88 @@ export default function LogIn() {
         e.preventDefault();
         setMessage("");
         quizConfig
-        .post(`/auth/token/`, {
-            username: username,
-            password : password
-        })
-        .then((response) => {
-           
-            let data = response.data;
-            // console.log(data.access,"555");
-            const user_details = {
-                is_verified: true,
-                access_token: data.access,
-            };
-            dispatch({
-                type: "UPDATE_USER_DETAILS",
-                user_details,
+            .post(`/auth/token/`, {
+                username: username,
+                password: password,
+            })
+            .then((response) => {
+                let data = response.data;
+                // console.log(data.access,"555");
+                const user_details = {
+                    is_verified: true,
+                    access_token: data.access,
+                };
+                dispatch({
+                    type: "UPDATE_USER_DETAILS",
+                    user_details,
+                });
+                navigate("/category");
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                if (error.response.status === 401) {
+                    setMessage(error.response.data.detail);
+                } else {
+                    if (error.response.data.username === "username") {
+                        setMessage("email:field is required");
+                    } else {
+                        setMessage("email & password field is required");
+                    }
+                }
             });
-            navigate("/category");
-        })
-        .catch((error) => {
-            console.log(error.response.data);
-            if (error.response.status === 401) {
-            setMessage(error.response.data.detail);
-            } else {
-            if (error.response.data.username === "username") {
-                setMessage("email:field is required");
-            } else {
-                setMessage("email & password field is required");
-            }
-            }
-        });
     };
     return (
-        <Container>
-            <LeftContainer>
-                <HeaderContainer>
-                    <Link to={"/home"}>
-                        <Logo
-                            src={require("../../assets/images/logo.png")}
-                            alt="Image"
-                        />
-                    </Link>
-                </HeaderContainer>
-                <MainHeading>Please Log In or Sign Up to Begin</MainHeading>
-            </LeftContainer>
-            <RightContainer>
-                <LoginContainer>
-                    <LoginHeading>Login to your Account</LoginHeading>
-                    <LoginInfo>Enter email and password to login</LoginInfo>
-                    <Form onSubmit={handleSubmit}>
-                        <InputContainer>
-                            <TextInput
-                            onChange={(e) => setUsername(e.target.value)}
-                            value={username}
-                            type="email"
-                            placeholder="Email"
+        <>
+            <Helmet>
+                <title>Log In | Quiz App</title>
+            </Helmet>
+            <Container>
+                <LeftContainer>
+                    <HeaderContainer>
+                        <Link to={"/home"}>
+                            <Logo
+                                src={require("../../assets/images/logo.png")}
+                                alt="Image"
                             />
-                        </InputContainer>
-                        <InputContainer>
-                            <TextInput
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            type="password"
-                            placeholder="Password"
-                            />
-                        </InputContainer>
-                        <LoginButton to="/signup">Signup Now</LoginButton>
-                        {message && <ErrorMessage>{message}</ErrorMessage>}
-                        <ButtonContainer>
-                            <SubmitButton>Login</SubmitButton>
-                        </ButtonContainer>
-                    </Form>
-                </LoginContainer>
-            </RightContainer>
-        </Container>
+                        </Link>
+                    </HeaderContainer>
+                    <MainHeading>Please Log In or Sign Up to Begin</MainHeading>
+                </LeftContainer>
+                <RightContainer>
+                    <LoginContainer>
+                        <LoginHeading>Login to your Account</LoginHeading>
+                        <LoginInfo>Enter email and password to login</LoginInfo>
+                        <Form onSubmit={handleSubmit}>
+                            <InputContainer>
+                                <TextInput
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
+                                    value={username}
+                                    type="email"
+                                    placeholder="Email"
+                                />
+                            </InputContainer>
+                            <InputContainer>
+                                <TextInput
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    value={password}
+                                    type="password"
+                                    placeholder="Password"
+                                />
+                            </InputContainer>
+                            <LoginButton to="/signup">Signup Now</LoginButton>
+                            {message && <ErrorMessage>{message}</ErrorMessage>}
+                            <ButtonContainer>
+                                <SubmitButton>Login</SubmitButton>
+                            </ButtonContainer>
+                        </Form>
+                    </LoginContainer>
+                </RightContainer>
+            </Container>
+        </>
     );
 }
 
@@ -171,6 +180,11 @@ const SubmitButton = styled.button`
     border-radius: 8px;
     font-size: 20px;
     cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 const ButtonContainer = styled.div`
     display: flex;

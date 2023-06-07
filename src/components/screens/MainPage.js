@@ -3,6 +3,7 @@ import Header from "../includes/Header";
 import styled from "styled-components";
 import { quizConfig } from "../../axiosConfig";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 // import { Context } from "../context/store";
 
 function MainPage() {
@@ -73,6 +74,9 @@ function MainPage() {
 
     return (
         <>
+            <Helmet>
+                <title>Quiz App</title>
+            </Helmet>
             <Header />
             <MainContainer>
                 <QuestionContainer>
@@ -94,7 +98,7 @@ function MainPage() {
                                                         backgroundColor:
                                                             selectedOption ===
                                                                 e.choice_1 &&
-                                                            "blue",
+                                                            "#25d4dc",
                                                     }}
                                                     onClick={() => {
                                                         handleOptionChange(
@@ -117,7 +121,7 @@ function MainPage() {
                                                         backgroundColor:
                                                             selectedOption ===
                                                                 e.choice_2 &&
-                                                            "blue",
+                                                            "#25d4dc",
                                                     }}
                                                 >
                                                     {e.choice_2}
@@ -134,7 +138,7 @@ function MainPage() {
                                                         backgroundColor:
                                                             selectedOption ===
                                                                 e.choice_3 &&
-                                                            "blue",
+                                                            "#25d4dc",
                                                     }}
                                                 >
                                                     {e.choice_3}
@@ -151,7 +155,7 @@ function MainPage() {
                                                         backgroundColor:
                                                             selectedOption ===
                                                                 e.choice_4 &&
-                                                            "blue",
+                                                            "#25d4dc",
                                                     }}
                                                 >
                                                     {e.choice_4}
@@ -176,13 +180,15 @@ function MainPage() {
                         </div>
                     ))}
                     {data?.length === count && (
-                        <ResetBtn onClick={() => setMark(0)}>Reset</ResetBtn>
+                        <ResetBtn onClick={() => setMark(0)}>
+                            Reset Score
+                        </ResetBtn>
                     )}
                     {console.log(data)}
                 </QuestionContainer>
                 <TopScorer>
                     <ScoreHeading>
-                    {firstName && <div>{firstName}</div>}
+                        {firstName && <div>{firstName}</div>}
                     </ScoreHeading>
                     <ScoreSubHeading>Score: {mark}</ScoreSubHeading>
                 </TopScorer>
@@ -238,16 +244,39 @@ const SubmitBtn = styled.div`
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
+    color: #fff;
+    border: none;
+    outline: none;
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 const ResetBtn = styled.div`
-    display: inline-block;
+    display: block;
     background: #046bf6;
     padding: 10px 40px;
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
-    display: block;
+    color: #fff;
+    border: none;
+    outline: none;
     text-align: center;
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 const RadioGroup = styled.div``;
 const RadioButton = styled.div`
@@ -256,5 +285,11 @@ const RadioButton = styled.div`
     border-radius: 5px;
     border: 1px solid #000;
     margin-bottom: 20px;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+        color: blue;
+    }
 `;
 const Round = styled.div``;

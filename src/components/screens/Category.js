@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Header from "../includes/Header";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 // import { Context } from "../context/store";
 
 function Category() {
@@ -21,6 +22,9 @@ function Category() {
 
     return (
         <>
+            <Helmet>
+                <title>Category | Quiz App</title>
+            </Helmet>
             <Header />
             <MainContainer>
                 <CategoryContainer>
@@ -83,9 +87,14 @@ const SubmitBtn = styled.div`
         opacity: 0.5;
         cursor: not-allowed;
     }
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 
-const RadioButton = styled.button`
+const RadioButton = styled.div`
     display: block;
     padding: 10px;
     cursor: pointer;
@@ -93,8 +102,15 @@ const RadioButton = styled.button`
     border: 1px solid #000;
     margin-bottom: 20px;
     outline: none;
-    background-color: ${({ selected }) => (selected ? "blue" : "transparent")};
-    color: ${({ selected }) => (selected ? "#fff" : "#000")};
+    background-color: ${({ selected }) =>
+        selected ? "#25d4dc" : "transparent"};
+    color: ${({ selected }) => (selected ? "#000" : "#000")};
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.7;
+        color: blue;
+    }
 `;
 
 const RadioGroup = styled.div``;
