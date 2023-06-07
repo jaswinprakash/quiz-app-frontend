@@ -1,26 +1,25 @@
-import { Fragment, React, useContext, useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Header from "../includes/Header";
 import styled from "styled-components";
-// import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { quizConfig } from "../../axiosConfig";
 import { useParams } from "react-router-dom";
-import { Context } from "../context/store";
-// import axios from "axios";
+// import { Context } from "../context/store";
 
 function MainPage() {
     const [selectedOption, setSelectedOption] = useState("");
-    console.log(selectedOption, "selectedOption");
+    const [firstName, setFirstName] = useState("");
+    // console.log(selectedOption, "selectedOption");
     const [data, setData] = useState([]);
-    console.log(data, "data");
+    // console.log(data, "data");
     const [pk, setpk] = useState("");
     const [count, setCount] = useState(0);
     const [mark, setMark] = useState(0);
-    const { state } = useContext(Context);
+    // const { state } = useContext(Context);
     const { category } = useParams();
-    console.log(state.user_details.access_token, "state");
+    // console.log(state.user_details.access_token, "state");
     const userDetails = JSON.parse(localStorage.getItem("user_details"));
-    console.log(userDetails, "userDetails");
-    console.log(selectedOption, "selectedOption");
+    // console.log(userDetails, "userDetails");
+    // console.log(selectedOption, "selectedOption");
     const handleOptionChange = (value) => {
         setSelectedOption(value);
     };
@@ -63,6 +62,7 @@ function MainPage() {
                 })
                 .then(function (response) {
                     setData(response.data.data);
+                    setFirstName(response.data.first_name);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -88,52 +88,6 @@ function MainPage() {
                                     </QuizContainer>
                                     <OptionsContainer>
                                         <form onSubmit={handleSubmit}>
-                                            {/* <RadioGroup onChange={handleOptionChange} value={selectedOption}>
-                                                <RadioButton
-                                                    value={e.choice_1}
-                                                    onChange={() => {
-                                                        handleOptionChange(
-                                                            e.choice_1
-                                                        );
-                                                        setpk(e.id);
-                                                    }}
-                                                >
-                                                    {e.choice_1}
-                                                </RadioButton>
-                                                <RadioButton
-                                                    value={e.choice_2}
-                                                    onChange={() => {
-                                                        handleOptionChange(
-                                                            e.choice_2
-                                                        );
-                                                        setpk(e.id);
-                                                    }}
-                                                >
-                                                    {e.choice_2}
-                                                </RadioButton>
-                                                <RadioButton
-                                                    value={e.choice_3}
-                                                    onChange={() => {
-                                                        handleOptionChange(
-                                                            e.choice_3
-                                                        );
-                                                        setpk(e.id);
-                                                    }}
-                                                >
-                                                    {e.choice_3}
-                                                </RadioButton>
-                                                <RadioButton
-                                                    value={e.choice_4}
-                                                    onChange={() => {
-                                                        handleOptionChange(
-                                                            e.choice_4
-                                                        );
-                                                        setpk(e.id);
-                                                    }}
-                                                >
-                                                    {e.choice_4}
-                                                </RadioButton>
-                                            </RadioGroup> */}
                                             <RadioGroup>
                                                 <RadioButton
                                                     style={{
@@ -149,7 +103,7 @@ function MainPage() {
                                                         setpk(e.id);
                                                     }}
                                                 >
-                                                        {e.choice_1}
+                                                    {e.choice_1}
                                                     <Round></Round>
                                                 </RadioButton>
                                                 <RadioButton
@@ -227,7 +181,9 @@ function MainPage() {
                     {console.log(data)}
                 </QuestionContainer>
                 <TopScorer>
-                    <ScoreHeading>Top Score</ScoreHeading>
+                    <ScoreHeading>
+                    {firstName && <div>{firstName}</div>}
+                    </ScoreHeading>
                     <ScoreSubHeading>Score: {mark}</ScoreSubHeading>
                 </TopScorer>
             </MainContainer>

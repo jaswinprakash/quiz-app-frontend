@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { UserContext } from "../../App";
 import { Context } from "../context/store";
 import { quizConfig } from "../../axiosConfig";
+// import { UserContext } from "../../App";
 
 
 export default function SignUp() {
@@ -14,7 +13,6 @@ export default function SignUp() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-    // const { updateUserData } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,12 +29,8 @@ export default function SignUp() {
 
         let status_code = response.data.status_code;
         if (status_code === 6000) {
-        //   console.log(status_code);
-        //   localStorage.setItem("user_login_data", JSON.stringify(data));
-        //   updateUserData({ type: "LOGIN", payload: data });
-        //   navigate("/category");
-        // let data = response.data;
-            console.log(data.access,"555");
+
+            // console.log(data.access,"555");
 
             const user_details = {
                 is_verified: true,
@@ -52,7 +46,7 @@ export default function SignUp() {
         }
       })
       .catch((error) => {
-        console.log("error", error.response);
+        // console.log("error", error.response);
         if (error.response.status === 500) {
           setMessage("Name,Email and Password:Field is required");
         }

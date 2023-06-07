@@ -1,47 +1,57 @@
 import React, { useContext, useState } from "react";
 import Header from "../includes/Header";
 import styled from "styled-components";
-import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../context/store";
+// import { Context } from "../context/store";
 
 function Category() {
-    const [techStatus, setTechStatus] = useState("");
-
-console.log(techStatus,"techStatus");
-  
+    const [selectedOption, setSelectedOption] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = (event) => {
-        navigate(`/home/${techStatus}`);
+
+    const handleOptionChange = (option) => {
+        setSelectedOption(option);
     };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (selectedOption) {
+            navigate(`/home/${selectedOption}`);
+        }
+    };
+
     return (
         <>
             <Header />
             <MainContainer>
                 <CategoryContainer>
                     <OptionsContainer>
-                        <form onSubmit={handleSubmit}>
-                            <RadioGroup>
-                                <RadioButton
-                                    value="option1"
-                                    onChange={() => setTechStatus("Technology")}
-                                >
-                                    Technology
-                                </RadioButton>
-                                <RadioButton
-                                    value="option2"
-                                    onChange={() => setTechStatus("General Knowledge")}
-                                >
-                                    General Knowledge
-                                </RadioButton>
-                            </RadioGroup>
+                        <RadioGroup>
+                            <RadioButton
+                                onClick={() => handleOptionChange("Technology")}
+                                selected={selectedOption === "Technology"}
+                            >
+                                Technology
+                            </RadioButton>
+                            <RadioButton
+                                onClick={() =>
+                                    handleOptionChange("General Knowledge")
+                                }
+                                selected={
+                                    selectedOption === "General Knowledge"
+                                }
+                            >
+                                General Knowledge
+                            </RadioButton>
+                        </RadioGroup>
+                        <SubmitBtnContainer>
                             <SubmitBtn
                                 type="submit"
-                                onClick={() => {techStatus && handleSubmit()}}
+                                disabled={!selectedOption}
+                                onClick={handleSubmit}
                             >
                                 Submit
                             </SubmitBtn>
-                        </form>
+                        </SubmitBtnContainer>
                     </OptionsContainer>
                 </CategoryContainer>
             </MainContainer>
@@ -66,4 +76,29 @@ const SubmitBtn = styled.div`
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
+    color: #fff;
+    border: none;
+    outline: none;
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+`;
+
+const RadioButton = styled.button`
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #000;
+    margin-bottom: 20px;
+    outline: none;
+    background-color: ${({ selected }) => (selected ? "blue" : "transparent")};
+    color: ${({ selected }) => (selected ? "#fff" : "#000")};
+`;
+
+const RadioGroup = styled.div``;
+const SubmitBtnContainer = styled.div`
+    display: flex;
+    justify-content: center;
 `;

@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { UserContext } from "../../App";
-import { Context } from "../context/store";
+// import { Context } from "../context/store";
 
 function Header() {
     const navigate = useNavigate();
     // const { state:{  user_details} } = useContext(Context);
     // console.log(  user_details,"  user_details");
     const userDetails = JSON.parse(localStorage.getItem('user_details'));
-    // const { userData, updateUserData } = useContext(UserContext);
     const handleLogout = () => {
       localStorage.clear();
         navigate("/login");

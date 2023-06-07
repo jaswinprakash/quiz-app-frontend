@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { UserContext } from "../../App";
 import { Context } from "../context/store";
 import { quizConfig } from "../../axiosConfig";
 
@@ -12,8 +10,7 @@ export default function LogIn() {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-    // const { updateUserData } = useContext(UserContext);
-    console.log(state,"rrr");
+    // console.log(state,"rrr");
     const handleSubmit = (e) => {
         e.preventDefault();
         setMessage("");
@@ -25,9 +22,7 @@ export default function LogIn() {
         .then((response) => {
            
             let data = response.data;
-            console.log(data.access,"555");
-            // localStorage.setItem("user_data", JSON.stringify(data));
-            // updateUserData({ type: "LOGIN", payload: data });
+            // console.log(data.access,"555");
             const user_details = {
                 is_verified: true,
                 access_token: data.access,
