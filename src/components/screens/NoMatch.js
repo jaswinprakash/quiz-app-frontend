@@ -1,8 +1,10 @@
 import React from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function NoMatch() {
-    return <NoMatchText>Page Not Found!</NoMatchText>;
+
+   return <Navigate to="/login" />;
 }
 
 export default NoMatch;

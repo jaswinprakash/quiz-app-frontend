@@ -2,12 +2,16 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../../App";
+import { Context } from "../context/store";
 
 function Header() {
     const navigate = useNavigate();
-    const { userData, updateUserData } = useContext(UserContext);
+    // const { state:{  user_details} } = useContext(Context);
+    // console.log(  user_details,"  user_details");
+    const userDetails = JSON.parse(localStorage.getItem('user_details'));
+    // const { userData, updateUserData } = useContext(UserContext);
     const handleLogout = () => {
-        updateUserData({ type: "LOGOUT" });
+      localStorage.clear();
         navigate("/login");
     };
     return (
@@ -20,7 +24,7 @@ function Header() {
                         />
                     </DivLeft>
                 </Link>
-                {userData ? (
+                {userDetails.is_verified ? (
                     <>
                         {" "}
                         <Button onClick={() => handleLogout()}>

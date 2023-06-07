@@ -3,21 +3,24 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../App";
+import { Context } from "../context/store";
+import { quizConfig } from "../../axiosConfig";
 
 
 export default function SignUp() {
+    const { state, dispatch } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-    const { updateUserData } = useContext(UserContext);
+    // const { updateUserData } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage("");
-    axios
-      .post(`http://127.0.0.1:8000/api/v1/auth/create/`, {
+    quizConfig
+      .post(`/auth/create/`, {
         email,
         password,
         name: name,
@@ -25,12 +28,25 @@ export default function SignUp() {
       .then((response) => {
         let data = response.data.data;
         console.log(response.data);
+
         let status_code = response.data.status_code;
         if (status_code === 6000) {
-          console.log(status_code);
-          localStorage.setItem("user_login_data", JSON.stringify(data));
-          updateUserData({ type: "LOGIN", payload: data });
-          navigate("/category");
+        //   console.log(status_code);
+        //   localStorage.setItem("user_login_data", JSON.stringify(data));
+        //   updateUserData({ type: "LOGIN", payload: data });
+        //   navigate("/category");
+        // let data = response.data;
+            console.log(data.access,"555");
+
+            const user_details = {
+                is_verified: true,
+                access_token: data.access,
+            };
+            dispatch({
+                type: "UPDATE_USER_DETAILS",
+                user_details,
+            });
+            navigate("/category");
         } else {
           setMessage(response.data.data);
         }
